@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2066352253827058133}
   - component: {fileID: 826767753452654120}
-  - component: {fileID: 4994674557356663122}
   - component: {fileID: 6700737825076723000}
   - component: {fileID: 93108585228180919}
+  - component: {fileID: 923860658859766854}
+  - component: {fileID: 4994674557356663122}
   - component: {fileID: 6485499270469051049}
   m_Layer: 0
   m_Name: Player
@@ -60,21 +61,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4994674557356663122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146914228620122737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbb9ab80174a7044887a097ce2e09936, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 5
-  input: {x: 0, y: 0}
-  cameraTransform: {fileID: 0}
 --- !u!143 &6700737825076723000
 CharacterController:
   m_ObjectHideFlags: 0
@@ -128,6 +114,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &923860658859766854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146914228620122737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d488bb12904b54bb5837f4327f9aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 1
+  runSpeed: 3
+  currentState: 0
+--- !u!114 &4994674557356663122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146914228620122737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbb9ab80174a7044887a097ce2e09936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {x: 0, y: 0}
+  cameraTransform: {fileID: 0}
 --- !u!114 &6485499270469051049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3567872763218385886}
   m_Layer: 0
-  m_Name: PlayerCenter
+  m_Name: PlayerPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +401,7 @@ Transform:
   m_GameObject: {fileID: 903494619345484919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.183, z: 0}
+  m_LocalPosition: {x: 0, y: 1.602, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
