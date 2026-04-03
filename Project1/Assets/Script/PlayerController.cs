@@ -10,13 +10,16 @@ public class PlayerController : MonoBehaviour
     public Vector2 input;
     public Transform cameraTransform;
     private float yVelocity;
+    [SerializeField] private float jumpForce = 5f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerData = GetComponent<Player>();
     }
+
+    public bool IsGrounded => controller.isGrounded;
 
     // Update is called once per frame
     void Update()
@@ -34,7 +37,16 @@ public class PlayerController : MonoBehaviour
 
         if (controller.isGrounded)
         {
-            yVelocity = -2f;
+            //yVelocity = -2f;
+            if (yVelocity < 0)
+            {
+                yVelocity = -2f;
+            }
+            
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                yVelocity = jumpForce;
+            }
         }
         else
         {

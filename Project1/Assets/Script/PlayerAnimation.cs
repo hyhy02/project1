@@ -10,7 +10,7 @@ public class PlayerAnimation : MonoBehaviour
     Player playerData;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<PlayerController>();
@@ -27,6 +27,15 @@ public class PlayerAnimation : MonoBehaviour
     {
         float speed = 0f;
 
+        if (!controller.IsGrounded)
+        {
+            animator.SetBool("IsJump", true);
+            return;
+        }
+        else
+        {
+            animator.SetBool("IsJump", false);
+        }
         if (controller.input.magnitude > 0.01f)
         {
             if (playerData.currentState == Player.PlayerState.Walk)

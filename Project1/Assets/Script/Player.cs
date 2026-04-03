@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
         Walk,
         Run,
         Jump,
+        Dodge,
         Attack
     }
 
