@@ -6,17 +6,27 @@ public class PlayerController : MonoBehaviour
 {
     CharacterController controller;
     Player playerData;
+    PlayerAnimation playerAnimation;
     //[SerializeField] float playerSpeed = 5f;
     public Vector2 input;
     public Transform cameraTransform;
     private float yVelocity;
     [SerializeField] private float jumpForce = 5f;
 
+    //콤보 공격
+    private int comboStep = 0;
+    private bool isAttacking = false;
+    private bool canComboInput = false;
+    //private bool comboInput = false;
+
+
+
     // Start is called before the first frame update
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerData = GetComponent<Player>();
+        playerAnimation = GetComponent<PlayerAnimation>();
     }
 
     public bool IsGrounded => controller.isGrounded;
@@ -25,9 +35,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
-
+        AttackInput();
     }
-    
+
     private void Move()
     {
         input.x = Input.GetAxis("Horizontal");
@@ -42,8 +52,8 @@ public class PlayerController : MonoBehaviour
             {
                 yVelocity = -2f;
             }
-            
-            if(Input.GetKeyDown(KeyCode.Space))
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 yVelocity = jumpForce;
             }
@@ -84,7 +94,7 @@ public class PlayerController : MonoBehaviour
             // 이동 방향
             moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
         }
-        
+
         // 속도
         float speed = playerData.walkSpeed;
         if (playerData.currentState == Player.PlayerState.Run)
@@ -97,5 +107,50 @@ public class PlayerController : MonoBehaviour
         velocity.y = yVelocity;
 
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void AttackInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isAttacking)
+            {
+                // 첫 공격 시작
+                comboStep = 1;
+                isAttacking = true;
+
+                playerAnimation.PlayAttack(comboStep);
+            }
+            else if (canComboInput)
+            {
+                // 다음 콤보
+                if (comboStep < 3)
+                {
+                    comboStep++;
+                    playerAnimation.PlayAttack(comboStep);
+
+                    canComboInput = false; // 중복 입력 방지
+                }
+            }
+        }
+    }
+    public void EnableComboInput()
+    {
+        canComboInput = true;
+        Debug.Log("콤보 입력 가능");
+    }
+
+    public void DisableComboInput()
+    {
+        canComboInput = false;
+    }
+    
+    // 콤보 공격 종료
+    void EndCombo()
+    {
+        Debug.Log("콤보 종료");
+        comboStep = 0;
+        isAttacking = false;
+        canComboInput = false;
     }
 }

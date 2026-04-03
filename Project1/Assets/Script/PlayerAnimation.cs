@@ -47,8 +47,14 @@ public class PlayerAnimation : MonoBehaviour
                 speed = 1f;
             }
         }
-        
+
         animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+    }
+    
+    // 콤보 공격 애니메이션
+    public void PlayAttack(int step)
+    {
+        animator.SetTrigger("Attack" + step);
     }
 
 }
