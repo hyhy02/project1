@@ -17,7 +17,9 @@ public class PlayerController : MonoBehaviour
     private int comboStep = 0;
     private bool isAttacking = false;
     private bool canComboInput = false;
-    //private bool comboInput = false;
+
+    //가드
+    public bool isGuard;
 
 
 
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         AttackInput();
+        GuardInput();
     }
 
     private void Move()
@@ -68,8 +71,9 @@ public class PlayerController : MonoBehaviour
             playerData.currentState = Player.PlayerState.Idle;
         }
         else
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
+        {   
+            // 달리기
+            if (Input.GetKey(KeyCode.LeftShift) && !isGuard)
             {
                 playerData.currentState = Player.PlayerState.Run;
             }
@@ -89,6 +93,11 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
 
             float rotationSpeed = 10f;
+            // 가드일 때 회전속도 느리게
+            if(isGuard)
+            {
+                rotationSpeed = 5f;
+            }
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
             // 이동 방향
@@ -101,6 +110,11 @@ public class PlayerController : MonoBehaviour
         {
             speed = playerData.runSpeed;
         }
+        //가드일 때 속도 느리게
+        if(isGuard)
+        {
+            speed *= 0.5f;
+        }
 
         // 이동
         Vector3 velocity = moveDir * speed;
@@ -109,11 +123,17 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
+    // 콤보 공격
     private void AttackInput()
     {
+        if (isGuard)
+        {
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
-            if (!isAttacking)
+            if (!isAttacking && controller.isGrounded)
             {
                 // 첫 공격 시작
                 comboStep = 1;
@@ -137,20 +157,26 @@ public class PlayerController : MonoBehaviour
     public void EnableComboInput()
     {
         canComboInput = true;
-        Debug.Log("콤보 입력 가능");
+        //Debug.Log("콤보 입력 가능");
     }
 
     public void DisableComboInput()
     {
         canComboInput = false;
     }
-    
+
     // 콤보 공격 종료
     void EndCombo()
     {
-        Debug.Log("콤보 종료");
+        //Debug.Log("콤보 종료");
         comboStep = 0;
         isAttacking = false;
         canComboInput = false;
     }
+    
+    private void GuardInput()
+    {
+        isGuard = Input.GetMouseButton(1);
+    }
+    
 }
