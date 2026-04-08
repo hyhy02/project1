@@ -8,6 +8,13 @@ public class Player : MonoBehaviour
     [Range(0f, 30f)] public float walkSpeed = 1f;
     [Range(0f, 30f)] public float runSpeed = 3f;
 
+    [Header("플레이어 체력, 스테미나")]
+    public float maxHP = 100f;
+    public float currentHP;
+
+    public float maxStamina = 100f;
+    public float currentStamina;
+
     public enum PlayerState
     {
         Idle,
@@ -19,4 +26,10 @@ public class Player : MonoBehaviour
     }
 
     public PlayerState currentState = PlayerState.Idle;
+
+    void Awake()
+    {
+        currentHP = maxHP;
+        currentStamina = maxStamina;
+    }
 }

@@ -7,11 +7,18 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     Player playerData;
     PlayerAnimation playerAnimation;
-    //[SerializeField] float playerSpeed = 5f;
+
     public Vector2 input;
     public Transform cameraTransform;
     private float yVelocity;
     [SerializeField] private float jumpForce = 5f;
+
+    [SerializeField] private float staminaDecreaseRate = 15f; // 초당 감소
+    [SerializeField] private float staminaRecoveryRate = 10f; // 초당 회복
+    [SerializeField] private float jumpStaminaCost = 20f; // 점프 소모량
+
+    private bool canRun = true;
+    [SerializeField] private float runEnable = 20f; // 다시 달릴 수 있는 최소 스테미나
 
     //콤보 공격
     private int comboStep = 0;
@@ -39,6 +46,14 @@ public class PlayerController : MonoBehaviour
         Move();
         AttackInput();
         GuardInput();
+
+        HandleStemina();
+
+        //테스트용
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            TakeDamage(10f);
+        }
     }
 
     private void Move()
@@ -55,10 +70,17 @@ public class PlayerController : MonoBehaviour
             {
                 yVelocity = -2f;
             }
-
+            // 점프
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                yVelocity = jumpForce;
+                if(playerData.currentStamina >= jumpStaminaCost)
+                {              
+                    yVelocity = jumpForce;
+                    playerData.currentState = Player.PlayerState.Jump;
+
+                    playerData.currentStamina -= jumpStaminaCost;
+                }
+  
             }
         }
         else
@@ -71,9 +93,9 @@ public class PlayerController : MonoBehaviour
             playerData.currentState = Player.PlayerState.Idle;
         }
         else
-        {   
+        {
             // 달리기
-            if (Input.GetKey(KeyCode.LeftShift) && !isGuard)
+            if (Input.GetKey(KeyCode.LeftShift) && !isGuard && !isAttacking && canRun)
             {
                 playerData.currentState = Player.PlayerState.Run;
             }
@@ -81,6 +103,11 @@ public class PlayerController : MonoBehaviour
             {
                 playerData.currentState = Player.PlayerState.Walk;
             }
+        }
+        // 스테미너 0일 때 Walk로 전환
+        if (playerData.currentStamina <= 0)
+        {
+            playerData.currentState = Player.PlayerState.Walk;
         }
 
         Vector3 moveDir = Vector3.zero;
@@ -173,10 +200,57 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
         canComboInput = false;
     }
-    
+
+    // 가드
     private void GuardInput()
     {
         isGuard = Input.GetMouseButton(1);
     }
+
+    public void TakeDamage(float damage)
+    {
+        playerData.currentHP -= damage;
+
+        playerData.currentHP = Mathf.Max(playerData.currentHP, 0);
+
+        if (playerData.currentHP == 0)
+        {
+            Die();
+        }
+    }
+    // 플레이어 죽음
+    private void Die()
+    {
+        Debug.Log("Die");
+    }
     
+    // 스테미너
+    public void HandleStemina()
+    {
+        // Run ->감소
+        if (playerData.currentState == Player.PlayerState.Run)
+        {
+            playerData.currentStamina -= staminaDecreaseRate * Time.deltaTime;
+        }
+        else
+        {
+            // Idle, Walk -> 회복
+            playerData.currentStamina += staminaRecoveryRate * Time.deltaTime;
+        }
+
+        playerData.currentStamina = Mathf.Clamp(playerData.currentStamina, 0, playerData.maxStamina);
+
+        // 스테미나 0 되면 달리기 금지
+        if (playerData.currentStamina <= 0)
+        {
+            canRun = false;
+        }
+
+        // 일정량 회복되면 다시 달리기 가능
+        if (playerData.currentStamina >= runEnable)
+        {
+            canRun = true;
+        }
+    }
+
 }
