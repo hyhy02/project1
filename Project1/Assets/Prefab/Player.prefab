@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6485499270469051049}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,6 +128,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1
   runSpeed: 3
+  maxHP: 100
+  currentHP: 0
+  maxStamina: 100
+  currentStamina: 0
   currentState: 0
 --- !u!114 &4994674557356663122
 MonoBehaviour:
@@ -143,6 +147,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   cameraTransform: {fileID: 0}
+  jumpForce: 5
+  staminaDecreaseRate: 15
+  staminaRecoveryRate: 10
+  jumpStaminaCost: 20
+  runEnable: 20
+  isGuard: 0
 --- !u!114 &6485499270469051049
 MonoBehaviour:
   m_ObjectHideFlags: 0
