@@ -10,9 +10,12 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 input;
     public Transform cameraTransform;
+
+    // 점프
     private float yVelocity;
     [SerializeField] private float jumpForce = 5f;
 
+    // 스테미나
     [SerializeField] private float staminaDecreaseRate = 15f; // 초당 감소
     [SerializeField] private float staminaRecoveryRate = 10f; // 초당 회복
     [SerializeField] private float jumpStaminaCost = 20f; // 점프 소모량
@@ -28,7 +31,8 @@ public class PlayerController : MonoBehaviour
     //가드
     public bool isGuard;
 
-
+    // 검
+    [SerializeField] private Sword sword;
 
     // Start is called before the first frame update
     void Awake()
@@ -199,6 +203,16 @@ public class PlayerController : MonoBehaviour
         comboStep = 0;
         isAttacking = false;
         canComboInput = false;
+    }
+
+    public void EnableCollider()
+    {
+        sword.EnableCollider();
+    }
+
+    public void DisableCollider()
+    {
+        sword.DisableCollider();
     }
 
     // 가드

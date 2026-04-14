@@ -45,6 +45,7 @@ public class Monster : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
+
         hpBar.SetTarget(transform);
         hpBar.UpdateHP(currentHP, maxHP);
     }
@@ -89,9 +90,13 @@ public class Monster : MonoBehaviour
     {
         if (currentState == MonsterState.Dead) return;
 
+        currentHP -= damage;
+
         hpBar.UpdateHP(currentHP, maxHP);
 
-        //anim.PlayHit(); 
+        //Debug.Log(currentHP);
+
+        anim.PlayHit(); 
 
         if (currentHP <= 0)
         {

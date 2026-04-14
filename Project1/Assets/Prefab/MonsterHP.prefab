@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 7414318950130438777}
   - component: {fileID: 5082946919741318157}
   - component: {fileID: 4207235270718225439}
+  - component: {fileID: 5934700093577982239}
   m_Layer: 5
   m_Name: MonsterHP
   m_TagString: Untagged
@@ -324,7 +325,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4207235270718225439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +343,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5934700093577982239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6933874797053054550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50804ea4f070df244b3c6c2b4f54f439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider_HP: {fileID: 3448861876882299541}
 --- !u!1 &9132448379640445553
 GameObject:
   m_ObjectHideFlags: 0
