@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterAI : MonoBehaviour
 {
     private Monster monster;
     private Transform player;
+    private NavMeshAgent agent;
 
     private void Awake()
     {
         monster = GetComponent<Monster>();
+        agent = GetComponent<NavMeshAgent>();
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         monster.target = player;
@@ -39,16 +43,18 @@ public class MonsterAI : MonoBehaviour
                 break;
 
             case Monster.MonsterState.Attack:
-                if (distance > monster.attackRange)
+                agent.SetDestination(transform.position); // 멈추기
+            
+                if (distance > monster.attackRange+0.5f)
                 {
                     monster.ChangeState(Monster.MonsterState.Chase);
+                    Debug.Log("dd");
                 }
                 break;
         }
     }
     private void ChasePlayer()
     {
-        // NavMesh 사용해서 기능 구현하기
-        //Debug.Log("추적");
+        agent.SetDestination(player.position);
     }
 }

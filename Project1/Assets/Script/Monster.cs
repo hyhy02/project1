@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Monster : MonoBehaviour
 
     [Header("감지범위")]
     public float detectRange = 10f;
-    public float attackRange = 5f;
+    public float attackRange = 2f;
 
     // [Header("상태")]
     public enum MonsterState
@@ -31,6 +32,7 @@ public class Monster : MonoBehaviour
 
     private MonsterAI ai;
     private MonsterAnimation anim;
+    private NavMeshAgent agent;
 
 
     private void Awake()
@@ -38,6 +40,7 @@ public class Monster : MonoBehaviour
         ai = GetComponent<MonsterAI>();
         anim = GetComponent<MonsterAnimation>();
         hpBar = GetComponentInChildren<MonsterHPBar>();
+        agent = GetComponent<NavMeshAgent>();
     }
     void Start()
     {
@@ -61,17 +64,22 @@ public class Monster : MonoBehaviour
         switch (currentState)
         {
             case MonsterState.Idle:
+                agent.isStopped = true;
                 break;
 
             case MonsterState.Chase:
-                //anim.PlayRun();
+                agent.isStopped = false;
+                anim.PlayRun();
                 break;
 
             case MonsterState.Attack:
-                //anim.PlayAttack();
+                agent.isStopped = true;
+                anim.PlayRunStop();
+                anim.PlayAttack();
                 break;
 
             case MonsterState.Dead:
+                agent.isStopped = true;
                 //anim.PlayDeath();
                 break;
         }
