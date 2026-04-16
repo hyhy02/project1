@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public float maxStamina = 100f;
     public float currentStamina;
 
+    [Header("상태")]
+    public PlayerState currentState = PlayerState.Idle;
     public enum PlayerState
     {
         Idle,
@@ -24,8 +26,6 @@ public class Player : MonoBehaviour
         Dodge,
         Attack
     }
-
-    public PlayerState currentState = PlayerState.Idle;
 
     void Awake()
     {

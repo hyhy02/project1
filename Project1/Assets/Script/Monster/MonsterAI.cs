@@ -48,13 +48,13 @@ public class MonsterAI : MonoBehaviour
                 if (distance > monster.attackRange+0.5f)
                 {
                     monster.ChangeState(Monster.MonsterState.Chase);
-                    Debug.Log("dd");
                 }
                 break;
         }
     }
     private void ChasePlayer()
     {
+        // 플레이어 따라가게 함. 
         agent.SetDestination(player.position);
     }
 }

@@ -7,7 +7,7 @@ public class MonsterHPBar : MonoBehaviour
 {
     public Slider slider_HP;
     private Transform target; // 몬스터
-        private float targetValue;   // 목표 값 (실제 HP)
+    private float targetValue;   // 목표 값 (실제 HP)
     private float smoothSpeed = 8f; // 부드러운 속도
 
     public void SetTarget(Transform target)

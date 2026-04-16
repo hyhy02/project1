@@ -16,7 +16,8 @@ public class Monster : MonoBehaviour
     public float detectRange = 10f;
     public float attackRange = 2f;
 
-    // [Header("상태")]
+    [Header("상태")]
+    public MonsterState currentState;
     public enum MonsterState
     {
         Idle,
@@ -24,12 +25,14 @@ public class Monster : MonoBehaviour
         Attack,
         Dead
     }
+    [Header("공격")]
+    public float attackDamage = 10f;
+    public float attackDelay = 1.5f; // 공격 간격
+    private bool isAttacking = false;
+    private Coroutine attackCoroutine;
 
    [Header("참조")]
     public Transform target;
-
-    public MonsterState currentState;
-
     private MonsterAI ai;
     private MonsterAnimation anim;
     private NavMeshAgent agent;
@@ -60,6 +63,14 @@ public class Monster : MonoBehaviour
     {
         if (currentState == newState) return;
 
+        // 공격 코루틴 정지 (상태 바뀔 때)
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+            isAttacking = false;
+        }
+
         currentState = newState;
 
         switch (currentState)
@@ -75,8 +86,10 @@ public class Monster : MonoBehaviour
 
             case MonsterState.Attack:
                 agent.isStopped = true;
-                anim.PlayRunStop();
-                anim.PlayAttack();
+                if(!isAttacking)
+                {
+                    attackCoroutine = StartCoroutine(AttackRoutine());
+                }
                 break;
 
             case MonsterState.Dead:
@@ -96,12 +109,50 @@ public class Monster : MonoBehaviour
 
         //Debug.Log(currentHP);
 
-        anim.PlayHit(); 
+        anim.PlayHit();
 
         if (currentHP <= 0)
         {
             ChangeState(MonsterState.Dead);
             Debug.Log("죽음");
+        }
+    }
+
+    // 공격 코루틴
+    IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+
+        // 플레이어 바라보기
+        Vector3 dir = (target.position - transform.position).normalized;
+        dir.y = 0;
+        transform.forward = dir;
+
+        while (currentState == MonsterState.Attack)
+        {
+            anim.PlayRunStop();
+            anim.PlayAttack(); // 공격 애니메이션
+
+            yield return new WaitForSeconds(attackDelay);
+        }
+
+        isAttacking = false;
+    }
+    
+    // 몬스터 공격시 데미지 주기
+    public void DealDamage()
+    {
+        if (target == null) return;
+
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if(distance <= attackRange + 0.5f)
+        {
+            PlayerController player = target.GetComponent<PlayerController>();
+            if(player != null)
+            {
+                player.TakeDamage(attackDamage);
+            }
         }
     }
 }

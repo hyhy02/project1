@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift) && !isGuard && !isAttacking && canRun)
             {
                 playerData.currentState = Player.PlayerState.Run;
-                Debug.Log("달리기");
             }
             else
             {
@@ -195,6 +194,8 @@ public class PlayerController : MonoBehaviour
                 comboStep = 1;
                 isAttacking = true;
 
+                playerData.currentState = Player.PlayerState.Attack;
+
                 playerAnimation.PlayAttack(comboStep);
             }
             else if (canComboInput)
@@ -219,6 +220,7 @@ public class PlayerController : MonoBehaviour
     public void DisableComboInput()
     {
         canComboInput = false;
+        playerData.currentState = Player.PlayerState.Idle;
     }
 
     // 콤보 공격 종료
