@@ -62,11 +62,35 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        // 공격 중 일때 이동하지 못하게
+        if (isAttacking)
+        {
+            // 공중이면 중력만 적용
+            if (!controller.isGrounded)
+            {
+                yVelocity += Physics.gravity.y * Time.deltaTime;
+            }
+            else
+            {
+                if (yVelocity < 0)
+                    yVelocity = -2f;
+            }
+
+            Vector3 attack_velocity = Vector3.zero;
+            attack_velocity.y = yVelocity;
+
+            controller.Move(attack_velocity * Time.deltaTime);
+            return;
+        }
+
+        // 입력
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
 
         Vector3 inputDir = new Vector3(input.x, 0, input.y).normalized;
 
+
+        // 중력
         if (controller.isGrounded)
         {
             //yVelocity = -2f;
@@ -102,6 +126,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift) && !isGuard && !isAttacking && canRun)
             {
                 playerData.currentState = Player.PlayerState.Run;
+                Debug.Log("달리기");
             }
             else
             {
@@ -205,11 +230,12 @@ public class PlayerController : MonoBehaviour
         canComboInput = false;
     }
 
+    // 검 콜라이더 보이게
     public void EnableCollider()
     {
         sword.EnableCollider();
     }
-
+    // 검 콜라이더 안보이게
     public void DisableCollider()
     {
         sword.DisableCollider();
