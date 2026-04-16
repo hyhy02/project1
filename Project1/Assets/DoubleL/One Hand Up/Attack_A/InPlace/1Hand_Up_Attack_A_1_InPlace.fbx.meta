@@ -57,7 +57,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.17885193
+      - time: 0.16918424
         functionName: EnableCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -71,22 +71,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.49789774
+      - time: 0.7057401
+        functionName: DisableCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8217649
         functionName: DisableComboInput
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.50030017
+      - time: 0.82658416
         functionName: EndCombo
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.5728096
-        functionName: DisableCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

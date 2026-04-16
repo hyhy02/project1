@@ -244,7 +244,11 @@ public class PlayerController : MonoBehaviour
     // 가드
     private void GuardInput()
     {
-        isGuard = Input.GetMouseButton(1);
+        if(!isAttacking)
+        {
+            isGuard = Input.GetMouseButton(1);
+        }
+        
     }
 
     public void TakeDamage(float damage)
