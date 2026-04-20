@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,13 +24,19 @@ public class Monster : MonoBehaviour
         Idle,
         Chase,
         Attack,
+        Hit,
         Dead
     }
     [Header("공격")]
     public float attackDamage = 10f;
-    public float attackDelay = 1.5f; // 공격 간격
-    private bool isAttacking = false;
+    public float attackDelay = 3f; // 공격 간격
+    public bool isAttacking = false;
     private Coroutine attackCoroutine;
+    [Space]
+    // public float attackCoolAfterHit = 1f; // 피격 후 공격 쿨타임
+    // public float attackCoolTimer = 0f;
+    public float hitRecoveryTime = 1f; // 경직시간
+    [SerializeField] private float hitRecoveryTimer = 0f;
 
    [Header("참조")]
     public Transform target;
@@ -57,6 +64,19 @@ public class Monster : MonoBehaviour
     {
         if (currentState == MonsterState.Dead) return;
 
+        // 히트시 경직
+        if (hitRecoveryTimer > 0)
+        {
+            hitRecoveryTimer -= Time.deltaTime;
+            return; // ai 멈추기
+        }
+
+        // 피격 후 공격 쿨타임
+        // if (attackCoolTimer > 0)
+        // {
+        //     attackCoolTimer -= Time.deltaTime;
+        // }
+        
         ai.HandleState();
     }
     public void ChangeState(MonsterState newState)
@@ -91,6 +111,15 @@ public class Monster : MonoBehaviour
                     attackCoroutine = StartCoroutine(AttackRoutine());
                 }
                 break;
+            case MonsterState.Hit:
+                agent.isStopped = true;
+                anim.PlayHit();
+
+                hitRecoveryTimer = hitRecoveryTime;
+                //attackCoolTimer = attackCoolAfterHit;
+                
+                StartCoroutine(HitRoutine());
+                break;
 
             case MonsterState.Dead:
                 agent.isStopped = true;
@@ -107,15 +136,13 @@ public class Monster : MonoBehaviour
 
         hpBar.UpdateHP(currentHP, maxHP);
 
-        //Debug.Log(currentHP);
-
-        anim.PlayHit();
-
         if (currentHP <= 0)
         {
             ChangeState(MonsterState.Dead);
             Debug.Log("죽음");
         }
+
+        ChangeState(MonsterState.Hit);
     }
 
     // 공격 코루틴
@@ -131,6 +158,9 @@ public class Monster : MonoBehaviour
         while (currentState == MonsterState.Attack)
         {
             anim.PlayRunStop();
+
+            yield return new WaitForSeconds(0.5f);
+
             anim.PlayAttack(); // 공격 애니메이션
 
             yield return new WaitForSeconds(attackDelay);
@@ -138,7 +168,7 @@ public class Monster : MonoBehaviour
 
         isAttacking = false;
     }
-    
+
     // 몬스터 공격시 데미지 주기
     public void DealDamage()
     {
@@ -146,13 +176,19 @@ public class Monster : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, target.position);
 
-        if(distance <= attackRange + 0.5f)
+        if (distance <= attackRange + 0.5f)
         {
             PlayerController player = target.GetComponent<PlayerController>();
-            if(player != null)
+            if (player != null)
             {
                 player.TakeDamage(attackDamage);
             }
         }
+    }
+    IEnumerator HitRoutine()
+    {
+        yield return new WaitForSeconds(0.5f); // 히트 애니메이션 길이
+
+        ChangeState(MonsterState.Idle);
     }
 }

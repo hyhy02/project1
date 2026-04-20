@@ -26,7 +26,11 @@ public class MonsterAI : MonoBehaviour
         switch (monster.currentState)
         {
             case Monster.MonsterState.Idle:
-                if (distance < monster.detectRange)
+                if(distance<=monster.attackRange)
+                {
+                    monster.ChangeState(Monster.MonsterState.Attack);
+                }
+                else if (distance < monster.detectRange)
                 {
                     monster.ChangeState(Monster.MonsterState.Chase);
                 }
@@ -38,14 +42,13 @@ public class MonsterAI : MonoBehaviour
                 if (distance <= monster.attackRange)
                 {
                     monster.ChangeState(Monster.MonsterState.Attack);
-                    Debug.Log("공격");
                 }
                 break;
 
             case Monster.MonsterState.Attack:
                 agent.SetDestination(transform.position); // 멈추기
-            
-                if (distance > monster.attackRange+0.5f)
+
+                if (distance > monster.attackRange + 0.5f)
                 {
                     monster.ChangeState(Monster.MonsterState.Chase);
                 }
