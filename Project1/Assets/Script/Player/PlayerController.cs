@@ -246,15 +246,18 @@ public class PlayerController : MonoBehaviour
     // 가드
     private void GuardInput()
     {
-        if(!isAttacking)
+        if (!isAttacking)
         {
             isGuard = Input.GetMouseButton(1);
         }
-        
-    }
 
+    }
+    
+    // 피격
     public void TakeDamage(float damage)
     {
+        playerAnimation.PlayHit(); // 피격 애니메이션
+
         playerData.currentHP -= damage;
 
         playerData.currentHP = Mathf.Max(playerData.currentHP, 0);

@@ -21,7 +21,7 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         UpdateAnimator();
-        Guard();
+        PlayGuard();
     }
 
     private void UpdateAnimator()
@@ -59,9 +59,13 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     // 가드 애니메이션
-    private void Guard()
+    private void PlayGuard()
     {
         animator.SetBool("IsGuard", controller.isGuard);
-            
+    }
+    
+    public void PlayHit()
+    {
+        animator.SetTrigger("IsHit");
     }
 }
