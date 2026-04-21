@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
         Run,
         Jump,
         Dodge,
-        Attack
+        Attack,
+        Die
     }
 
     void Awake()

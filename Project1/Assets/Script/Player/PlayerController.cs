@@ -56,17 +56,17 @@ public class PlayerController : MonoBehaviour
         //테스트용
         if(Input.GetKeyDown(KeyCode.T))
         {
-            TakeDamage(10f);
+            Die();
         }
     }
 
     private void Move()
     {
         // 공격 중 일때 이동하지 못하게
-        if (isAttacking)
+        if (isAttacking && playerData.currentState==Player.PlayerState.Die)
         {
             // 공중이면 중력만 적용
-            if (!controller.isGrounded)
+            if (!controller.isGrounded && playerData.currentState!=Player.PlayerState.Die)
             {
                 yVelocity += Physics.gravity.y * Time.deltaTime;
             }
@@ -266,11 +266,15 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
+
+        EndCombo();
     }
     // 플레이어 죽음
     private void Die()
     {
-        Debug.Log("Die");
+        //Debug.Log("Die");
+        playerData.currentState = Player.PlayerState.Die;
+        playerAnimation.PlayDeath(); // 죽는 애니메이션
     }
     
     // 스테미너
