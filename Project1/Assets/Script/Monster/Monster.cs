@@ -76,8 +76,15 @@ public class Monster : MonoBehaviour
         // {
         //     attackCoolTimer -= Time.deltaTime;
         // }
-        
+
         ai.HandleState();
+
+        //테스트용
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Monster_Die();
+        }
+        
     }
     public void ChangeState(MonsterState newState)
     {
@@ -123,7 +130,8 @@ public class Monster : MonoBehaviour
 
             case MonsterState.Dead:
                 agent.isStopped = true;
-                //anim.PlayDeath();
+                //agent.enabled = false;
+                anim.PlayDeath();
                 break;
         }
     }
@@ -138,11 +146,24 @@ public class Monster : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            ChangeState(MonsterState.Dead);
-            Debug.Log("죽음");
+            Monster_Die();
+            return;
         }
 
         ChangeState(MonsterState.Hit);
+    }
+    private void Monster_Die()
+    {
+        ChangeState(MonsterState.Dead);
+        StartCoroutine(Monster_Destroy());
+        Debug.Log("죽음");
+    }
+    IEnumerator Monster_Destroy()
+    {
+        yield return new WaitForSeconds(5.5f);
+
+        Destroy(gameObject);
+        Debug.Log("파괴");
     }
 
     // 공격 코루틴

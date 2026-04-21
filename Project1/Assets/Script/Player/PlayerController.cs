@@ -54,10 +54,10 @@ public class PlayerController : MonoBehaviour
         HandleStemina();
 
         //테스트용
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            Die();
-        }
+        // if(Input.GetKeyDown(KeyCode.T))
+        // {
+        //     Die();
+        // }
     }
 
     private void Move()
