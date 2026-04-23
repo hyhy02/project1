@@ -63,11 +63,19 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetBool("IsGuard", controller.isGuard);
     }
+    // 가드 중 피격 애니메이션
+    public void PlayGuardHit()
+    {
+        animator.SetTrigger("IsGuardHit");
+    }
 
+    // 피격 애니메이션
     public void PlayHit()
     {
         animator.SetTrigger("IsHit");
     }
+
+    // 죽음 애니메이션
     public void PlayDeath()
     {
         animator.SetTrigger("IsDie");

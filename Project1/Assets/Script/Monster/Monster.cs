@@ -15,7 +15,7 @@ public class Monster : MonoBehaviour
 
     [Header("감지범위")]
     public float detectRange = 10f;
-    public float attackRange = 2f;
+    public float attackRange = 1f;
 
     [Header("상태")]
     public MonsterState currentState;
@@ -202,7 +202,7 @@ public class Monster : MonoBehaviour
             PlayerController player = target.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakeDamage(attackDamage);
+                player.TakeDamage(attackDamage, transform);
             }
         }
     }

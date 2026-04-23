@@ -1666,7 +1666,7 @@ MonoBehaviour:
   currentHP: 100
   hpBar: {fileID: 0}
   detectRange: 10
-  attackRange: 1.5
+  attackRange: 1
   currentState: 0
   attackDamage: 10
   attackDelay: 3

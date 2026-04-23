@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     //가드
     public bool isGuard;
+    [SerializeField] private float guardDamageReduction = 0.5f; // 50% 감소
 
     // 검
     [SerializeField] private Sword sword;
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // 공격 중 일때 이동하지 못하게
-        if (isAttacking && playerData.currentState==Player.PlayerState.Die)
+        if (isAttacking || playerData.currentState==Player.PlayerState.Die)
         {
             // 공중이면 중력만 적용
             if (!controller.isGrounded && playerData.currentState!=Player.PlayerState.Die)
@@ -252,11 +253,22 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    
+
     // 피격
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform attacker)
     {
-        playerAnimation.PlayHit(); // 피격 애니메이션
+        bool isFront = IsFrontAttacker(attacker);
+
+        // 가드 중일 때 데미지 반감
+        if (isGuard && isFront)
+        {
+            damage *= guardDamageReduction;
+            playerAnimation.PlayGuardHit(); // 가드 중 피격 애니메이션
+        }
+        else
+        {
+            playerAnimation.PlayHit(); // 피격 애니메이션
+        }
 
         playerData.currentHP -= damage;
 
@@ -269,6 +281,16 @@ public class PlayerController : MonoBehaviour
 
         EndCombo();
     }
+    
+    // 앞 뒤 판정 함수
+    private bool IsFrontAttacker(Transform attacker)
+    {
+        Vector3 dirToEnemy = (attacker.position - transform.position).normalized;
+
+        float dot = Vector3.Dot(transform.forward, dirToEnemy); // 1: 정면, 0: 옆, -1: 완전 뒤
+
+        return dot > 0.5f;
+    }
     // 플레이어 죽음
     private void Die()
     {
@@ -276,7 +298,7 @@ public class PlayerController : MonoBehaviour
         playerData.currentState = Player.PlayerState.Die;
         playerAnimation.PlayDeath(); // 죽는 애니메이션
     }
-    
+
     // 스테미너
     public void HandleStemina()
     {
