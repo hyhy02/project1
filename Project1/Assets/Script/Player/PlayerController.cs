@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     Player playerData;
     PlayerAnimation playerAnimation;
+    TargetingSystem targeting;
 
     public Vector2 input;
     public Transform cameraTransform;
@@ -34,13 +35,13 @@ public class PlayerController : MonoBehaviour
 
     // 검
     [SerializeField] private Sword sword;
-
     // Start is called before the first frame update
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerData = GetComponent<Player>();
         playerAnimation = GetComponent<PlayerAnimation>();
+        targeting = GetComponent<TargetingSystem>();
     }
 
     public bool IsGrounded => controller.isGrounded;
@@ -53,6 +54,11 @@ public class PlayerController : MonoBehaviour
         GuardInput();
 
         HandleStemina();
+
+        if (targeting.currentTarget != null)
+        {
+            RotateToTarget();
+        }
 
         //테스트용
         // if(Input.GetKeyDown(KeyCode.T))
@@ -143,21 +149,32 @@ public class PlayerController : MonoBehaviour
 
         if (inputDir.magnitude >= 0.01f)
         {
-            // 카메라 기준 회전
             float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
 
-            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-
-            float rotationSpeed = 10f;
-            // 가드일 때 회전속도 느리게
-            if(isGuard)
+            if (targeting.currentTarget == null)
             {
-                rotationSpeed = 5f;
+                // 카메라 기준 회전
+                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+
+                float rotationSpeed = 10f;
+                // 가드일 때 회전속도 느리게
+                if (isGuard)
+                {
+                    rotationSpeed = 5f;
+                }
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
             // 이동 방향
-            moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            if (targeting.currentTarget != null)
+            {
+                moveDir = (transform.forward * input.y + transform.right * input.x).normalized;
+            }
+            else
+            {
+                moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            }
+   
         }
 
         // 속도
@@ -328,4 +345,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // 타겟 쪽으로 회전
+    void RotateToTarget()
+    {
+        Vector3 dir = targeting.currentTargetPoint.position - transform.position;
+        dir.y = 0;
+
+        Quaternion rot = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * 10f);
+    }
 }

@@ -160,7 +160,7 @@ public class Monster : MonoBehaviour
     }
     IEnumerator Monster_Destroy()
     {
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(5.0f);
 
         Destroy(gameObject);
         Debug.Log("파괴");

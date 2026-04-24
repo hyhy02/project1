@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 923860658859766854}
   - component: {fileID: 4994674557356663122}
   - component: {fileID: 6485499270469051049}
+  - component: {fileID: 8408887731523495090}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -125,6 +126,7 @@ MonoBehaviour:
   jumpStaminaCost: 20
   runEnable: 20
   isGuard: 0
+  guardDamageReduction: 0.5
   sword: {fileID: 6015255811885968533}
 --- !u!114 &6485499270469051049
 MonoBehaviour:
@@ -138,6 +140,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93eccd2077b62e944b736f3244418f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8408887731523495090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146914228620122737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b940d6e50fd667e4baf4f01063800278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockOnRange: 10
+  monsterLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  currentTarget: {fileID: 0}
 --- !u!1 &376031933482107898
 GameObject:
   m_ObjectHideFlags: 0
