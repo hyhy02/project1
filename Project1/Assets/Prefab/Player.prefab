@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d488bb12904b54bb5837f4327f9aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1
-  runSpeed: 3
+  walkSpeed: 1.5
+  runSpeed: 3.5
   maxHP: 100
   currentHP: 0
   maxStamina: 100
@@ -128,6 +128,7 @@ MonoBehaviour:
   isGuard: 0
   guardDamageReduction: 0.5
   sword: {fileID: 6015255811885968533}
+  suppressRotationDuration: 1.5
 --- !u!114 &6485499270469051049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +158,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   currentTarget: {fileID: 0}
+  currentTargetPoint: {fileID: 0}
 --- !u!1 &376031933482107898
 GameObject:
   m_ObjectHideFlags: 0

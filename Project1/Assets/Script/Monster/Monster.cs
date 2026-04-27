@@ -171,19 +171,24 @@ public class Monster : MonoBehaviour
     {
         isAttacking = true;
 
-        // 플레이어 바라보기
-        Vector3 dir = (target.position - transform.position).normalized;
-        dir.y = 0;
-        transform.forward = dir;
-
         while (currentState == MonsterState.Attack)
         {
-            anim.PlayRunStop();
+            // 공격 전에 플레이어 방향으로 회전
+            if (target != null)
+            {
+                Vector3 dir = (target.position - transform.position).normalized;
+                dir.y = 0;
+                if (dir != Vector3.zero)
+                {
+                    transform.forward = dir;
+                }
 
+            }
+            
+            anim.PlayRunStop();
             yield return new WaitForSeconds(0.5f);
 
             anim.PlayAttack(); // 공격 애니메이션
-
             yield return new WaitForSeconds(attackDelay);
         }
 
@@ -195,15 +200,11 @@ public class Monster : MonoBehaviour
     {
         if (target == null) return;
 
-        float distance = Vector3.Distance(transform.position, target.position);
+        PlayerController player = target.GetComponent<PlayerController>();
 
-        if (distance <= attackRange + 0.5f)
+        if (player != null)
         {
-            PlayerController player = target.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                player.TakeDamage(attackDamage, transform);
-            }
+            player.TakeDamage(attackDamage, transform);
         }
     }
     IEnumerator HitRoutine()

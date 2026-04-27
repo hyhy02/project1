@@ -1182,6 +1182,8 @@ GameObject:
   - component: {fileID: 3987685227126749618}
   - component: {fileID: 7386978481724552724}
   - component: {fileID: 83684913072540802}
+  - component: {fileID: 6913144384860113890}
+  - component: {fileID: 7325487478532765037}
   m_Layer: 6
   m_Name: SM_Wep_Sword_03
   m_TagString: Untagged
@@ -1254,6 +1256,39 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6913144384860113890
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3582937311377174011}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.061516996, y: 1.518537, z: 0.15275194}
+  m_Center: {x: -0.00000044274066, y: 0.5907317, z: -0.0041403575}
+--- !u!114 &7325487478532765037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3582937311377174011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bb7baca7eceec40b2b3ab98e0bb03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3595804281632544838
 GameObject:
   m_ObjectHideFlags: 0

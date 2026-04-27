@@ -33,22 +33,35 @@ public class TargetingSystem : MonoBehaviour
         CheckTarget();
     }
 
-    // 가장 가까운 몬스터 타겟 찾기
+    // 카메라 기준 타겟 잡기
     public void FindTarget()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, lockOnRange, monsterLayer);
 
-        float minDist = Mathf.Infinity;
+        Camera cam = Camera.main;
+        float minAngle = Mathf.Infinity;
         Transform bestTarget = null;
 
-        // 범위 안에서 가장 가까운 몬스터로.
         foreach (var hit in hits)
         {
-            float dist = Vector3.Distance(transform.position, hit.transform.position);
 
-            if (dist < minDist)
+            // 뷰포트 좌표로 변환 (0~1이 화면 안)
+            Vector3 viewportPos = cam.WorldToViewportPoint(hit.transform.position);
+
+            // 몬스터가 화면 밖이거나 카메라 뒤에 있으면 락온 실행 x
+            bool inScreen = viewportPos.x >= 0f && viewportPos.x <= 1f &&
+                            viewportPos.y >= 0f && viewportPos.y <= 1f &&
+                            viewportPos.z > 0f; // z > 0 = 카메라 앞
+
+            if (!inScreen) continue;
+
+            // 카메라 → 몬스터 방향과 카메라 정면 방향의 각도 차이로 비교
+            Vector3 dirToMonster = (hit.transform.position - cam.transform.position).normalized;
+            float angle = Vector3.Angle(cam.transform.forward, dirToMonster);
+            
+            if (angle < minAngle)
             {
-                minDist = dist;
+                minAngle = angle;
                 bestTarget = hit.transform;
             }
         }
@@ -96,18 +109,30 @@ public class TargetingSystem : MonoBehaviour
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, lockOnRange, monsterLayer);
 
+        Camera cam = Camera.main;
         List<Transform> targets = new List<Transform>();
 
         foreach (var hit in hits)
+        {
+            // 화면 안에 있는 몬스터만 추가
+            Vector3 viewportPos = cam.WorldToViewportPoint(hit.transform.position);
+
+            bool inScreen = viewportPos.x >= 0f && viewportPos.x <= 1f &&
+                        viewportPos.y >= 0f && viewportPos.y <= 1f &&
+                        viewportPos.z > 0f;
+
+            if (!inScreen) continue;
+        
             targets.Add(hit.transform);
+        }
 
         targets.Sort((a, b) =>
         {
-            Vector3 dirA = a.position - transform.position;
-            Vector3 dirB = b.position - transform.position;
+            Vector3 dirA = a.position - cam.transform.position;
+            Vector3 dirB = b.position - cam.transform.position;
 
-            float angleA = Vector3.SignedAngle(transform.forward, dirA, Vector3.up);
-            float angleB = Vector3.SignedAngle(transform.forward, dirB, Vector3.up);
+            float angleA = Vector3.SignedAngle(cam.transform.forward, dirA, cam.transform.up);
+            float angleB = Vector3.SignedAngle(cam.transform.forward, dirB, cam.transform.up);
 
             return angleA.CompareTo(angleB);
         });
