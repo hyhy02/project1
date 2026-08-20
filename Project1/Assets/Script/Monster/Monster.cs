@@ -29,7 +29,11 @@ public class Monster : MonoBehaviour
     }
     [Header("공격")]
     public float attackDamage = 10f;
-    public float attackDelay = 3f; // 공격 간격
+    //public float attackDelay = 3f; // 공격 간격
+    public float attackPrepareTime = 0.5f; // 공격 전 
+    public float attackRecoveryTime = 0.8f; // 공격 회복 시간
+    public float rotationSpeed = 360f; // 회전 속도
+    private float attackAnimationTime = 2.1f; // 애니메이션 속도
     public bool isAttacking = false;
     private Coroutine attackCoroutine;
     [Space]
@@ -171,26 +175,42 @@ public class Monster : MonoBehaviour
     {
         isAttacking = true;
 
-        while (currentState == MonsterState.Attack)
+        // 공격 전에 플레이어 방향으로 회전
+        if (target != null)
         {
-            // 공격 전에 플레이어 방향으로 회전
-            if (target != null)
+            Vector3 dir = (target.position - transform.position).normalized;
+            dir.y = 0;
+
+            if (dir != Vector3.zero)
             {
-                Vector3 dir = (target.position - transform.position).normalized;
-                dir.y = 0;
-                if (dir != Vector3.zero)
+                Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+                while (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
                 {
-                    transform.forward = dir;
+                    transform.rotation = Quaternion.RotateTowards(
+                        transform.rotation,
+                        targetRotation,
+                        rotationSpeed * Time.deltaTime
+                    );
+
+                    yield return null;
                 }
-
+                
             }
-            
-            anim.PlayRunStop();
-            yield return new WaitForSeconds(0.5f);
-
-            anim.PlayAttack(); // 공격 애니메이션
-            yield return new WaitForSeconds(attackDelay);
         }
+        
+        // 공격 준비
+        anim.PlayRunStop();
+        yield return new WaitForSeconds(attackPrepareTime);
+
+        // 공격
+        anim.PlayAttack(); // 공격 애니메이션
+
+        // 공격 애니메이션
+        yield return new WaitForSeconds(attackAnimationTime);
+
+        //공격 후딜
+        yield return new WaitForSeconds(attackRecoveryTime);
 
         isAttacking = false;
     }

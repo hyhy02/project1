@@ -47,11 +47,21 @@ public class MonsterAI : MonoBehaviour
 
             case Monster.MonsterState.Attack:
                 agent.SetDestination(transform.position); // 멈추기
-
-                if (distance > monster.attackRange + 0.5f)
+                
+                // 몬스터 공격이 끝나면
+                if(!monster.isAttacking)
                 {
-                    monster.ChangeState(Monster.MonsterState.Chase);
+                    // 공격 범위 밖일 때, 추적상태로
+                    if (distance > monster.attackRange)
+                    {
+                        monster.ChangeState(Monster.MonsterState.Chase);
+                    }
+                    else // 공격 범위 안일 때, Idle상태로
+                    {
+                        monster.ChangeState(Monster.MonsterState.Idle);
+                    }
                 }
+                
                 break;
         }
     }

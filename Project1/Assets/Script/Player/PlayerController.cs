@@ -31,16 +31,10 @@ public class PlayerController : MonoBehaviour
 
     //가드
     public bool isGuard;
-    [SerializeField] private float guardDamageReduction = 0.5f; // 50% 감소
+    [SerializeField] private float guardDamageReduction = 0.0f; // 100% 감소
 
     // 검
     [SerializeField] private Sword sword;
-
-    // 락온 해제 후 회전 억제용
-    private bool suppressRotation = false;
-    private float suppressRotationTimer = 0f;
-    [SerializeField] private float suppressRotationDuration = 1.5f; // 억제 시간
-    private bool wasLockOn = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -61,22 +55,6 @@ public class PlayerController : MonoBehaviour
         GuardInput();
 
         HandleStemina();
-
-        // 락온 해제 감지
-        if (wasLockOn && targeting.currentTarget == null)
-        {
-            suppressRotation = true;
-            suppressRotationTimer = suppressRotationDuration;
-        }
-        wasLockOn = targeting.currentTarget != null;
-
-        // 억제 타이머
-        if (suppressRotation)
-        {
-            suppressRotationTimer -= Time.deltaTime;
-            if (suppressRotationTimer <= 0f)
-                suppressRotation = false;
-        }
 
         if (targeting.currentTarget != null)
         {
@@ -174,7 +152,7 @@ public class PlayerController : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
 
-            if (targeting.currentTarget == null && !suppressRotation)
+            if (targeting.currentTarget == null )//&& !suppressRotation)
             {
                 // 카메라 기준 회전
                 Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);

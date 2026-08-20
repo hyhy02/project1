@@ -27,6 +27,7 @@ public class TargetingSystem : MonoBehaviour
             else
             {
                 currentTarget = null;
+                currentTargetPoint = null;
             }
         }
 
