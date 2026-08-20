@@ -64,15 +64,15 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.99796253
-        functionName: DisableCollider
+      - time: 0.9430266
+        functionName: EndCombo
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
-        functionName: EndCombo
+      - time: 0.94336325
+        functionName: DisableCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

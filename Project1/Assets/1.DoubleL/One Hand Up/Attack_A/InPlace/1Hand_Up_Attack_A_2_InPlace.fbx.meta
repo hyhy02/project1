@@ -71,22 +71,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9546829
-        functionName: DisableCollider
+      - time: 0.91362655
+        functionName: DisableComboInput
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.958731
+      - time: 0.91362697
         functionName: EndCombo
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9611043
-        functionName: DisableComboInput
+      - time: 0.9143267
+        functionName: DisableCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
