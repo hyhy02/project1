@@ -5,11 +5,11 @@ using UnityEngine;
 public class Sword : MonoBehaviour
 {
     public int damage = 10;
-    private bool hasHit = false;
+    private HashSet<Monster> hitMonsters = new HashSet<Monster>();
 
     public void EnableCollider()
     {
-        hasHit = false;
+        hitMonsters.Clear();
         GetComponent<Collider>().enabled = true;
     }
 
@@ -20,18 +20,20 @@ public class Sword : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasHit) return;
+        if (!other.CompareTag("Monster"))
+            return;
 
-        if (other.CompareTag("Monster"))
-        {
-            hasHit = true;
+        Monster monster = other.GetComponent<Monster>();
 
-            Monster monster = other.GetComponent<Monster>();
-            if (monster != null)
-            {
-                monster.TakeDamage(damage);
-                
-            }
-        }
+        if (monster == null)
+            return;
+
+        // 공격에 이미 맞은 몬스터라면 무시
+        if (hitMonsters.Contains(monster))
+            return;
+
+        hitMonsters.Add(monster);
+
+        monster.TakeDamage(damage);
     }
 }
