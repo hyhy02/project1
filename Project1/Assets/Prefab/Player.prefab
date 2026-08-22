@@ -86,7 +86,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &923860658859766854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d488bb12904b54bb5837f4327f9aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.5
-  runSpeed: 3.5
+  walkSpeed: 2.5
+  runSpeed: 4.5
   maxHP: 100
   currentHP: 0
   maxStamina: 100
@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
-  cameraTransform: {fileID: 0}
   jumpForce: 5
   staminaDecreaseRate: 15
   staminaRecoveryRate: 10
@@ -127,8 +126,9 @@ MonoBehaviour:
   runEnable: 20
   isGuard: 0
   guardDamageReduction: 0.5
+  cameraTransform: {fileID: 0}
+  gameUI: {fileID: 0}
   sword: {fileID: 6015255811885968533}
-  suppressRotationDuration: 1.5
 --- !u!114 &6485499270469051049
 MonoBehaviour:
   m_ObjectHideFlags: 0
