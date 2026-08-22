@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.RestService;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
 
 public class MonsterAI : MonoBehaviour
 {
     private Monster monster;
     private Transform player;
     private NavMeshAgent agent;
+    [SerializeField] private Player playerData;
 
     private void Awake()
     {
@@ -22,6 +25,18 @@ public class MonsterAI : MonoBehaviour
 
     public void HandleState()
     {
+        if (playerData.currentState == Player.PlayerState.Die)
+        {
+            agent.isStopped = true;
+
+            if (monster.currentState != Monster.MonsterState.Idle)
+            {
+                monster.currentState = Monster.MonsterState.Idle;
+            }
+
+            return;
+        }
+        
         float distance = Vector3.Distance(transform.position, player.position);
         switch (monster.currentState)
         {

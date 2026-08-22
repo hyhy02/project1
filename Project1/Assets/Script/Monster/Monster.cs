@@ -9,7 +9,7 @@ public class Monster : MonoBehaviour
     [Header("스탯")]
     public float maxHP= 100f;
     public float currentHP;
-    public MonsterHPBar hpBar;
+    [SerializeField] private MonsterHPBar hpBar;
 
     //public float attackDamage = 10f;
 
@@ -47,6 +47,7 @@ public class Monster : MonoBehaviour
     private MonsterAI ai;
     private MonsterAnimation anim;
     private NavMeshAgent agent;
+    [SerializeField] private GameUIManager gameUI;
 
 
     private void Awake()
@@ -160,14 +161,16 @@ public class Monster : MonoBehaviour
     {
         ChangeState(MonsterState.Dead);
         StartCoroutine(Monster_Destroy());
-        Debug.Log("죽음");
+
+        gameUI.GameClear();
+        //Debug.Log("죽음");
     }
     IEnumerator Monster_Destroy()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(3.0f);
 
         Destroy(gameObject);
-        Debug.Log("파괴");
+        //Debug.Log("파괴");
     }
 
     // 공격 코루틴

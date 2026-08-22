@@ -561,7 +561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6017386831996138880
 Transform:
   m_ObjectHideFlags: 0
@@ -974,9 +974,9 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7042702965971049074, guid: 97ada40f57d401540b8eafeeba1f0e9c, type: 3}
-  - {fileID: 5147520435782516356, guid: 97ada40f57d401540b8eafeeba1f0e9c, type: 3}
-  - {fileID: -4560933009594687480, guid: 97ada40f57d401540b8eafeeba1f0e9c, type: 3}
+  - {fileID: -8474651742996372913, guid: cc0d14e1055cbeb4e825d39e42977e12, type: 3}
+  - {fileID: -8474651742996372913, guid: cc0d14e1055cbeb4e825d39e42977e12, type: 3}
+  - {fileID: -8474651742996372913, guid: cc0d14e1055cbeb4e825d39e42977e12, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1234,7 +1234,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8350505722130589247, guid: a095f798aba8f2946b3a23de742b2fb8, type: 3}
+  - {fileID: 8350505722130589247, guid: 08aecb816b6b4194a9c2897afa4f9148, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1736,7 +1736,9 @@ MonoBehaviour:
   attackRange: 1
   currentState: 0
   attackDamage: 10
-  attackDelay: 3
+  attackPrepareTime: 0.5
+  attackRecoveryTime: 0.8
+  rotationSpeed: 360
   isAttacking: 0
   hitRecoveryTime: 1
   hitRecoveryTimer: 0

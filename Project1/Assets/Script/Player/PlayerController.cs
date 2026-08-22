@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    CharacterController controller;
-    Player playerData;
-    PlayerAnimation playerAnimation;
-    TargetingSystem targeting;
-
+    [Header("이동")]
     public Vector2 input;
-    public Transform cameraTransform;
-
     // 점프
     private float yVelocity;
     [SerializeField] private float jumpForce = 5f;
 
+    [Header("스테미나")]
     // 스테미나
     [SerializeField] private float staminaDecreaseRate = 15f; // 초당 감소
     [SerializeField] private float staminaRecoveryRate = 10f; // 초당 회복
@@ -24,15 +19,24 @@ public class PlayerController : MonoBehaviour
     private bool canRun = true;
     [SerializeField] private float runEnable = 20f; // 다시 달릴 수 있는 최소 스테미나
 
+    //ㅁ[Header("공격")]
     //콤보 공격
-    private int comboStep = 0;
     private bool isAttacking = false;
     private bool canComboInput = false;
+    private int comboStep = 0;
 
+    [Header("가드")]
     //가드
     public bool isGuard;
     [SerializeField] private float guardDamageReduction = 0.0f; // 100% 감소
 
+    [Header("참조")]
+    [SerializeField] private Transform cameraTransform;
+    private CharacterController controller;
+    private Player playerData;
+    private PlayerAnimation playerAnimation;
+    private TargetingSystem targeting;
+    [SerializeField] private GameUIManager gameUI;
     // 검
     [SerializeField] private Sword sword;
 
@@ -315,6 +319,8 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Die");
         playerData.currentState = Player.PlayerState.Die;
         playerAnimation.PlayDeath(); // 죽는 애니메이션
+
+        gameUI.GameOver();
     }
 
     // 스테미너
