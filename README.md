@@ -16,11 +16,11 @@ Unity와 C#을 활용하여 1인 개발한 3인칭 액션 게임입니다.
 ## GIF
 
 ### 공격
-<img width="1510" height="844" alt="3인칭 액션 게임 공격" src="https://github.com/user-attachments/assets/05c7f3db-53a1-41fc-b2f2-c72352dde6d6" />
+<img width="800" height="500" alt="3인칭 액션 게임 공격" src="https://github.com/user-attachments/assets/05c7f3db-53a1-41fc-b2f2-c72352dde6d6" />
 ### 가드
-<img width="1510" height="842" alt="3인칭 액션 게임 가드" src="https://github.com/user-attachments/assets/6cf42a84-e148-4b76-9a89-169d7a3bb07c" />
+<img width="800" height="500" alt="3인칭 액션 게임 가드" src="https://github.com/user-attachments/assets/6cf42a84-e148-4b76-9a89-169d7a3bb07c" />
 ### 락온
-<img width="1510" height="842" alt="3인칭 액션 게임 락온" src="https://github.com/user-attachments/assets/f9af76ca-1500-4165-bbdd-11c1f77a652f" />
+<img width="800" height="500" alt="3인칭 액션 게임 락온" src="https://github.com/user-attachments/assets/f9af76ca-1500-4165-bbdd-11c1f77a652f" />
 
 
 
